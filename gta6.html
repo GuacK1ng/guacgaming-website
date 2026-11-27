@@ -1,0 +1,771 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Guac Gaming GTA VI Hub. Explore A Long Road, 100% completion, the mission log, trophies and more.">
+  <title>Grand Theft Auto VI | Guac Gaming</title>
+
+  <style>
+    :root {
+      --bg: #101015;
+      --panel: #1c1824;
+      --panel-light: #282033;
+      --purple: #8c65bd;
+      --pink: #ff79ae;
+      --pink-light: #ffacd0;
+      --gold: #e0ae43;
+      --white: #f7f4fa;
+      --muted: #b9b0c3;
+      --border: #44334e;
+      --green: #55b85c;
+      --red: #ed4b4b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      background: #09090d;
+      border-bottom: 1px solid #302638;
+      padding: 14px 6%;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 190px;
+      max-height: 65px;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .back-link {
+      color: var(--pink-light);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      color: white;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 55px 24px 55px;
+      text-align: center;
+      border-bottom: 3px solid var(--pink);
+    }
+
+    .game-logo {
+      display: block;
+      width: min(100%, 470px);
+      max-height: 340px;
+      object-fit: contain;
+      margin: 0 auto 20px;
+    }
+
+    .eyebrow {
+      color: var(--pink);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 49px);
+      line-height: 1.15;
+      margin: 12px 0;
+    }
+
+    .hero h1 span {
+      color: var(--pink);
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 680px;
+      margin: auto;
+      font-size: 17px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 27px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 7px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .button-primary {
+      background: var(--pink);
+      color: #211326;
+    }
+
+    .button-secondary {
+      border: 1px solid var(--purple);
+      color: white;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 45px 24px 70px;
+    }
+
+    .section {
+      margin-bottom: 65px;
+      scroll-margin-top: 25px;
+    }
+
+    .section-heading {
+      margin-bottom: 22px;
+    }
+
+    .section-heading h2 {
+      font-size: 29px;
+      margin: 4px 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    /* A LONG ROAD */
+
+    .featured {
+      background:
+        radial-gradient(ellipse at 100% 0%, #623b76 0%, transparent 58%),
+        linear-gradient(145deg, #302044, #1c1824 78%);
+      border: 1px solid #76508a;
+      border-top: 4px solid var(--pink);
+      border-radius: 13px;
+      padding: 28px;
+    }
+
+    .featured h3 {
+      font-size: 30px;
+      margin: 7px 0;
+    }
+
+    .featured h3 span {
+      color: var(--pink);
+    }
+
+    .featured-intro {
+      color: #ded3e5;
+      max-width: 750px;
+      margin-bottom: 24px;
+    }
+
+    .completion-total {
+      background: rgba(10, 8, 16, 0.45);
+      border: 1px solid #62456f;
+      border-radius: 10px;
+      padding: 19px;
+      margin-bottom: 18px;
+    }
+
+    .completion-total .total-number {
+      color: var(--pink);
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .completion-total p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .percentage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 13px;
+    }
+
+    .percentage-card {
+      background: rgba(10, 8, 16, 0.38);
+      border: 1px solid #55405f;
+      border-radius: 9px;
+      padding: 17px;
+    }
+
+    .percentage-card .percentage {
+      color: var(--pink);
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .percentage-card h4 {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    .percentage-card p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .percentage-bar {
+      background: #49384f;
+      height: 7px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .percentage-bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), var(--pink));
+      border-radius: 20px;
+    }
+
+    .completion-note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 17px;
+    }
+
+    /* MISSION LOG */
+
+    .mission-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 24px;
+    }
+
+    .mission-fields {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .mission-field {
+      background: var(--panel-light);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .mission-field strong {
+      display: block;
+      color: var(--pink-light);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .mission-field span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mission-empty {
+      border: 1px dashed #72517d;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* GUIDE CARDS */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 24px;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--pink);
+      transform: translateY(-3px);
+    }
+
+    .card .number {
+      color: var(--pink);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .card h3 {
+      font-size: 21px;
+      margin: 7px 0;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .card-link {
+      color: var(--pink-light);
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .coming-soon {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .info-panel {
+      background: linear-gradient(120deg, #211a2c, #17151d);
+      border-left: 3px solid var(--purple);
+      border-radius: 8px;
+      padding: 22px;
+    }
+
+    .info-panel h3 {
+      margin-bottom: 7px;
+    }
+
+    .info-panel p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: #09090d;
+      border-top: 1px solid #302638;
+      padding: 28px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--pink-light);
+    }
+
+    .footer-brand {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .footer-brand .guac {
+      color: var(--green);
+    }
+
+    .footer-brand .gaming {
+      color: var(--red);
+    }
+
+    @media (max-width: 650px) {
+      .brand-logo {
+        width: 155px;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .game-logo {
+        max-height: 270px;
+      }
+
+      .percentage-grid,
+      .cards,
+      .mission-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading h2 {
+        font-size: 25px;
+      }
+
+      .featured {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" aria-label="Guac Gaming Home">
+        <img
+          src="full logo with transparent background.png"
+          alt="Guac Gaming"
+          class="brand-logo"
+        >
+      </a>
+
+      <a href="index.html" class="back-link">← Back to Home</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img
+      src="gta6-logo.webp.WEBP"
+      alt="Grand Theft Auto VI logo"
+      class="game-logo"
+    >
+
+    <div class="eyebrow">The Guac Gaming GTA VI Hub</div>
+
+    <h1>
+      The <span>Guac Gaming</span> GTA VI Hub
+    </h1>
+
+    <p>
+      Your destination for 100% completion, mission information,
+      trophies and everything you need to get the most out of
+      Grand Theft Auto VI.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#completion" class="button button-primary">
+        100% Completion
+      </a>
+
+      <a href="#mission-log" class="button button-secondary">
+        Mission Log
+      </a>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- A LONG ROAD -->
+
+    <section class="section" id="completion">
+      <div class="section-heading">
+        <div class="eyebrow">The 100% Completion Project</div>
+        <h2>A Long Road</h2>
+        <p>
+          Every mission. Every requirement. Everything.
+          Follow the complete breakdown of what it takes
+          to reach 100% completion in GTA VI.
+        </p>
+      </div>
+
+      <div class="featured">
+
+        <h3><span>100% Completion</span></h3>
+
+        <p class="featured-intro">
+          GTA VI tracks completion across four major categories.
+          Use this breakdown as your starting point for the journey
+          toward complete game completion.
+        </p>
+
+        <div class="completion-total">
+          <div class="eyebrow">Total Completion</div>
+          <div class="total-number">100%</div>
+          <p>Four categories make up the complete requirement.</p>
+        </div>
+
+        <div class="percentage-grid">
+
+          <div class="percentage-card">
+            <div class="percentage">50%</div>
+            <h4>Story Completion</h4>
+            <p>
+              Complete the main story and all required
+              story missions.
+            </p>
+            <div class="percentage-bar">
+              <span style="width: 50%"></span>
+            </div>
+          </div>
+
+          <div class="percentage-card">
+            <div class="percentage">27%</div>
+            <h4>Tasks</h4>
+            <p>
+              Optional tasks, gang operations, robberies
+              and fencing requirements.
+            </p>
+            <div class="percentage-bar">
+              <span style="width: 27%"></span>
+            </div>
+          </div>
+
+          <div class="percentage-card">
+            <div class="percentage">20%</div>
+            <h4>Exploration & Activities</h4>
+            <p>
+              Collectibles, activities, challenges,
+              races and other discoveries.
+            </p>
+            <div class="percentage-bar">
+              <span style="width: 20%"></span>
+            </div>
+          </div>
+
+          <div class="percentage-card">
+            <div class="percentage">3%</div>
+            <h4>Discovery</h4>
+            <p>
+              Vehicle scanning, weapon discovery
+              and studying animals.
+            </p>
+            <div class="percentage-bar">
+              <span style="width: 3%"></span>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="completion-note">
+          The reported percentage weights are based on the
+          game's 100% completion requirements. The in-game
+          Progress menu should be used as the final reference.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- MISSION LOG -->
+
+    <section class="section" id="mission-log">
+
+      <div class="section-heading">
+        <div class="eyebrow">Story Progression</div>
+        <h2>Mission Log</h2>
+        <p>
+          Follow the story mission by mission. Find prerequisites,
+          quick information and the unlocks associated with
+          each mission.
+        </p>
+      </div>
+
+      <div class="mission-panel">
+
+        <h3>Mission Database</h3>
+
+        <p style="color: var(--muted); font-size: 14px;">
+          Each mission will have its own entry with the information
+          needed to understand its place in the story and progression.
+        </p>
+
+        <div class="mission-fields">
+
+          <div class="mission-field">
+            <strong>Mission Name</strong>
+            <span>The mission's official title.</span>
+          </div>
+
+          <div class="mission-field">
+            <strong>Prerequisites</strong>
+            <span>What must be completed or unlocked first.</span>
+          </div>
+
+          <div class="mission-field">
+            <strong>Quick Info</strong>
+            <span>Characters, location and important details.</span>
+          </div>
+
+          <div class="mission-field">
+            <strong>Unlocks</strong>
+            <span>New missions, activities and features.</span>
+          </div>
+
+        </div>
+
+        <div class="mission-empty">
+          Mission entries will be added as the database develops.
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TROPHIES -->
+
+    <section class="section" id="trophies">
+
+      <div class="section-heading">
+        <div class="eyebrow">Earn Everything</div>
+        <h2>Trophies & Achievements</h2>
+        <p>
+          Dedicated resources for players working toward
+          every trophy and achievement.
+        </p>
+      </div>
+
+      <div class="cards">
+
+        <article class="card">
+          <div class="number">01 / ROADMAP</div>
+          <h3>Platinum Trophy Guide</h3>
+          <p>
+            A roadmap covering trophy requirements,
+            missables and the path toward Platinum.
+          </p>
+          <span class="coming-soon">Coming Soon</span>
+        </article>
+
+        <article class="card">
+          <div class="number">02 / INDIVIDUAL GUIDES</div>
+          <h3>Trophy Guides</h3>
+          <p>
+            Detailed information for individual trophies,
+            including tips and walkthroughs where needed.
+          </p>
+          <span class="coming-soon">Coming Soon</span>
+        </article>
+
+      </div>
+
+    </section>
+
+    <!-- ADDITIONAL GUIDES -->
+
+    <section class="section" id="guides">
+
+      <div class="section-heading">
+        <div class="eyebrow">Explore More</div>
+        <h2>GTA VI Guides</h2>
+        <p>
+          Additional resources covering the world,
+          activities and mechanics of Grand Theft Auto VI.
+        </p>
+      </div>
+
+      <div class="cards">
+
+        <article class="card">
+          <div class="number">01 / DISCOVER</div>
+          <h3>Secrets & Collectibles</h3>
+          <p>
+            Hidden discoveries, collectibles and interesting
+            secrets throughout the game.
+          </p>
+          <span class="coming-soon">Coming Soon</span>
+        </article>
+
+        <article class="card">
+          <div class="number">02 / EXPLORE</div>
+          <h3>Weapons & Vehicles</h3>
+          <p>
+            Locations, unlocks, upgrades and useful information
+            about equipment and vehicles.
+          </p>
+          <span class="coming-soon">Coming Soon</span>
+        </article>
+
+        <article class="card">
+          <div class="number">03 / PROGRESS</div>
+          <h3>Money & Businesses</h3>
+          <p>
+            Guides to making money, business opportunities
+            and other progression resources.
+          </p>
+          <span class="coming-soon">Coming Soon</span>
+        </article>
+
+        <article class="card">
+          <div class="number">04 / LEARN</div>
+          <h3>Tips & Beginner Guides</h3>
+          <p>
+            Helpful information, game mechanics and tips
+            to get the most out of your experience.
+          </p>
+          <span class="coming-soon">Coming Soon</span>
+        </article>
+
+      </div>
+
+    </section>
+
+    <section class="section">
+      <div class="info-panel">
+        <h3>Play Smarter. Complete Everything.</h3>
+        <p>
+          Follow Guac Gaming for mission information,
+          completion resources and more.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+
+    <div class="footer-brand">
+      <span class="guac">GUAC</span>
+      <span class="gaming"> GAMING</span>
+    </div>
+
+    <p>
+      <a href="index.html">Return to Guac Gaming Home</a>
+    </p>
+
+    <p>Grand Theft Auto VI is a trademark of Rockstar Games.</p>
+
+  </footer>
+
+</body>
+</html>
