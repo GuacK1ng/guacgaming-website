@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101216">
+  <title>GTA VI Mission Database | Guac Gaming</title>
+  <meta name="description" content="Explore the GTA VI mission database from Guac Gaming. Search missions, review prerequisites, unlocks, additional information and walkthroughs.">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101216;
+      --panel: #191d24;
+      --panel-2: #202630;
+      --line: #303844;
+      --text: #f1f3f5;
+      --muted: #aab3bf;
+      --accent: #b7d63b;
+      --accent-dark: #26320d;
+      --link: #c9e56b;
+      --warning: #e8c66a;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 50% -20%, #29313a 0, var(--bg) 55%);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--link); }
+    .site-header, main, .site-footer { width: min(1080px, calc(100% - 32px)); margin-inline: auto; }
+    .site-header { padding: 22px 0 8px; }
+    .back-link { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); text-decoration: none; font-size: .92rem; }
+    .back-link:hover { color: var(--text); }
+    .hero { padding: 34px 0 26px; }
+    .eyebrow { color: var(--accent); font-size: .76rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 8px 0 8px; font-size: clamp(2rem, 6vw, 3.35rem); line-height: 1.08; letter-spacing: -.04em; }
+    .intro { max-width: 720px; color: var(--muted); margin: 0; }
+    .toolbar {
+      display: grid; grid-template-columns: 1fr auto; gap: 12px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 14px; margin: 20px 0 14px;
+    }
+    .search-wrap { position: relative; }
+    .search-wrap span { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    input[type="search"] {
+      width: 100%; min-height: 46px; padding: 10px 14px 10px 40px;
+      color: var(--text); background: #0f1217; border: 1px solid var(--line);
+      border-radius: 9px; font: inherit; outline: none;
+    }
+    input[type="search"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #b7d63b22; }
+    button {
+      border: 1px solid var(--line); border-radius: 9px; padding: 10px 14px;
+      background: var(--panel-2); color: var(--text); font: inherit; font-weight: 650;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--accent); }
+    .toolbar button { white-space: nowrap; }
+    .status-row { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; color: var(--muted); font-size: .85rem; padding: 0 3px 14px; }
+    .status-row strong { color: var(--text); }
+    .chapter {
+      margin: 14px 0; border: 1px solid var(--line); border-radius: var(--radius);
+      overflow: hidden; background: #151920;
+    }
+    .chapter > summary {
+      list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 17px 18px; background: linear-gradient(100deg, #222a32, #191e26);
+      font-size: 1.08rem; font-weight: 800;
+    }
+    .chapter > summary::-webkit-details-marker, .mission > summary::-webkit-details-marker, .sequence > summary::-webkit-details-marker { display: none; }
+    .chapter > summary::after { content: "+"; color: var(--accent); font-size: 1.35rem; line-height: 1; }
+    .chapter[open] > summary::after { content: "−"; }
+    .chapter-count { color: var(--muted); font-size: .8rem; font-weight: 600; white-space: nowrap; }
+    .chapter-content { padding: 12px; }
+    .mission, .sequence {
+      border: 1px solid var(--line); border-radius: 11px; background: var(--panel);
+      margin: 9px 0; overflow: hidden;
+    }
+    .mission > summary, .sequence > summary {
+      list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      cursor: pointer; padding: 14px 15px; font-weight: 750;
+    }
+    .mission > summary:hover, .sequence > summary:hover { background: #ffffff08; }
+    .mission > summary::after, .sequence > summary::after { content: "＋"; color: var(--muted); font-size: .9rem; }
+    .mission[open] > summary::after, .sequence[open] > summary::after { content: "−"; }
+    .mission-title { min-width: 0; }
+    .sequence { border-color: #596b2a; background: #1a2117; }
+    .sequence > summary { background: #242d1b; }
+    .sequence-label { display: block; color: var(--accent); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+    .sequence-name { display: block; }
+    .sequence-parts { color: var(--muted); font-size: .8rem; font-weight: 600; white-space: nowrap; }
+    .mission-body { padding: 0 15px 16px; border-top: 1px solid var(--line); }
+    .sequence-body { padding: 4px 12px 10px; }
+    .field { padding: 12px 0 0; }
+    .field h3 { margin: 0 0 4px; color: var(--accent); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
+    .field p { margin: 0; color: #e0e4e9; white-space: pre-line; overflow-wrap: anywhere; }
+    .field .empty { color: var(--muted); font-style: italic; }
+    .reveal-box { margin-top: 12px; padding: 11px 12px; border: 1px dashed #68734a; border-radius: 9px; background: #b7d63b0b; }
+    .reveal-box button { padding: 6px 10px; color: var(--link); background: #202819; font-size: .86rem; }
+    .reveal-content { display: none; margin-top: 9px; white-space: pre-line; overflow-wrap: anywhere; }
+    .reveal-box.revealed .reveal-content { display: block; }
+    .reveal-box.revealed button { color: var(--muted); }
+    .source-link { display: inline-block; margin-top: 12px; font-weight: 700; text-decoration: none; }
+    .source-link:hover { text-decoration: underline; }
+    .empty-state, .error-state {
+      border: 1px solid var(--line); border-radius: var(--radius); padding: 24px;
+      background: var(--panel); color: var(--muted); text-align: center;
+    }
+    .error-state strong { display: block; color: var(--text); margin-bottom: 6px; }
+    .hidden { display: none !important; }
+    .site-footer { padding: 34px 0 42px; border-top: 1px solid var(--line); margin-top: 36px; color: var(--muted); font-size: .84rem; }
+    .site-footer a { text-decoration: none; }
+    @media (max-width: 620px) {
+      .toolbar { grid-template-columns: 1fr; }
+      .toolbar button { width: 100%; }
+      .chapter > summary { padding: 15px; font-size: 1rem; }
+      .chapter-content { padding: 8px; }
+      .mission > summary, .sequence > summary { padding: 13px 12px; }
+      .sequence-parts { font-size: .72rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="back-link" href="gta6.html">← Back to the GTA VI Hub</a>
+    <section class="hero">
+      <div class="eyebrow">Guac Gaming • Story Progression</div>
+      <h1>GTA VI Mission Database</h1>
+      <p class="intro">Follow the story mission by mission. Search the database for prerequisites, useful information, unlocks and walkthroughs.</p>
+    </section>
+  </header>
+
+  <main>
+    <section class="toolbar" aria-label="Mission database controls">
+      <div class="search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input id="missionSearch" type="search" placeholder="Search missions, characters, prerequisites..." autocomplete="off" aria-label="Search missions">
+      </div>
+      <button id="refreshButton" type="button">↻ Refresh database</button>
+    </section>
+    <div class="status-row">
+      <span id="missionCount">Loading mission data…</span>
+      <span id="lastUpdated"></span>
+    </div>
+    <div id="database" aria-live="polite">
+      <div class="empty-state">Loading the mission database…</div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="gta6.html">← Return to the GTA VI Hub</a></p>
+    <p>Grand Theft Auto VI is a trademark of Rockstar Games. Guac Gaming is an independent fan resource and is not affiliated with Rockstar Games.</p>
+  </footer>
+
+  <script>
+    // Published Google Sheets CSV. Keep this URL pointed at the published CSV
+    // so updates made in the spreadsheet can flow into the website.
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQKs4MAkkAbPKVGFmCJNsv7GVwhh1Cn9-9REYoUTOk5g2IUqrAL8LDHTEQhz9i7A55gkPWMBoZrlov5/pub?output=csv";
+
+    const database = document.getElementById("database");
+    const searchInput = document.getElementById("missionSearch");
+    const countLabel = document.getElementById("missionCount");
+    const updatedLabel = document.getElementById("lastUpdated");
+    const refreshButton = document.getElementById("refreshButton");
+    let allMissions = [];
+    let chapterOpenState = {};
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [], cell = "", quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i], next = text[i + 1];
+        if (char === '"') {
+          if (quoted && next === '"') { cell += '"'; i++; }
+          else quoted = !quoted;
+        } else if (char === "," && !quoted) {
+          row.push(cell); cell = "";
+        } else if ((char === "\n" || char === "\r") && !quoted) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(cell);
+          if (row.some(value => value.trim() !== "")) rows.push(row);
+          row = []; cell = "";
+        } else {
+          cell += char;
+        }
+      }
+      row.push(cell);
+      if (row.some(value => value.trim() !== "")) rows.push(row);
+      return rows;
+    }
+
+    function normalizeHeader(value) {
+      return String(value || "").replace(/^\uFEFF/, "").replace(/\s+/g, " ").trim().toLowerCase();
+    }
+    function clean(value) {
+      return String(value ?? "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+    }
+    function isYes(value) {
+      return /^(yes|y|true|1)$/i.test(clean(value));
+    }
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+    function safeURL(value) {
+      try {
+        const url = new URL(clean(value));
+        return ["https:", "http:"].includes(url.protocol) ? url.href : "";
+      } catch { return ""; }
+    }
+
+    function readMissions(csvText) {
+      const rows = parseCSV(csvText);
+      if (rows.length < 2) throw new Error("The published spreadsheet appears to be empty.");
+      const headers = rows[0].map(normalizeHeader);
+      const findColumn = (...names) => headers.findIndex(header => names.includes(header));
+      const columns = {
+        chapter: findColumn("chapter"),
+        name: findColumn("mission name"),
+        source: findColumn("mission source"),
+        prerequisite: findColumn("prerequisite", "prerequisites"),
+        quickInfo: findColumn("quick info"),
+        unlocks: findColumn("unlocks"),
+        unlocksSpoiler: findColumn("unlocks spoiler y/n", "unlocks spoiler y n", "unlocks spoiler"),
+        additional: findColumn("additional info", "additional information"),
+        additionalSpoiler: findColumn("additional info spoiler y/n", "additional info spoiler y n", "additional information spoiler y/n", "additional info spoiler"),
+        sequence: findColumn("sequence"),
+        sequencePart: findColumn("sequence part"),
+        youtube: findColumn("youtube link")
+      };
+      if (columns.chapter < 0 || columns.name < 0) {
+        throw new Error("The spreadsheet needs the Chapter and Mission Name columns.");
+      }
+      return rows.slice(1).map(row => {
+        const get = index => index < 0 ? "" : clean(row[index]);
+        return {
+          chapter: get(columns.chapter),
+          name: get(columns.name),
+          source: get(columns.source),
+          prerequisite: get(columns.prerequisite),
+          quickInfo: get(columns.quickInfo),
+          unlocks: get(columns.unlocks),
+          unlocksSpoiler: isYes(get(columns.unlocksSpoiler)),
+          additional: get(columns.additional),
+          additionalSpoiler: isYes(get(columns.additionalSpoiler)),
+          sequence: get(columns.sequence),
+          sequencePart: get(columns.sequencePart),
+          youtube: get(columns.youtube)
+        };
+      }).filter(mission => mission.chapter && mission.name);
+    }
+
+    function renderField(title, value) {
+      if (!value) return "";
+      return `<section class="field"><h3>${escapeHTML(title)}</h3><p>${escapeHTML(value)}</p></section>`;
+    }
+    function renderReveal(title, value, spoiler) {
+      if (!value) return "";
+      if (!spoiler) return renderField(title, value);
+      return `<section class="reveal-box">
+        <button type="button" class="reveal-button" aria-expanded="false">＋ ${escapeHTML(title)} — Tap to reveal</button>
+        <div class="reveal-content">${escapeHTML(value)}</div>
+      </section>`;
+    }
+    function renderMission(mission) {
+      const videoURL = safeURL(mission.youtube);
+      return `<details class="mission">
+        <summary><span class="mission-title">${escapeHTML(mission.name)}</span></summary>
+        <div class="mission-body">
+          ${renderField("Mission Source", mission.source)}
+          ${renderField("Prerequisite", mission.prerequisite)}
+          ${renderField("Quick Info", mission.quickInfo)}
+          ${renderReveal("Unlocks", mission.unlocks, mission.unlocksSpoiler)}
+          ${renderReveal("Additional Information", mission.additional, mission.additionalSpoiler)}
+          ${videoURL ? `<a class="source-link" href="${escapeHTML(videoURL)}" target="_blank" rel="noopener noreferrer">▶ Watch YouTube walkthrough ↗</a>` : ""}
+        </div>
+      </details>`;
+    }
+
+    function makeChapterEntries(missions) {
+      const entries = [];
+      let i = 0;
+      while (i < missions.length) {
+        const current = missions[i];
+        if (!current.sequence) {
+          entries.push({ type: "mission", mission: current });
+          i++;
+          continue;
+        }
+        const sequenceKey = current.sequence;
+        const sequenceMissions = [];
+        while (i < missions.length && missions[i].sequence === sequenceKey) {
+          sequenceMissions.push(missions[i]);
+          i++;
+        }
+        // A sequence is one expandable entry containing its individual missions.
+        entries.push({ type: "sequence", sequence: sequenceKey, missions: sequenceMissions });
+      }
+      return entries;
+    }
+
+    function renderDatabase(missions) {
+      if (!missions.length) {
+        database.innerHTML = `<div class="empty-state">No missions match that search. Try another title or keyword.</div>`;
+        countLabel.textContent = "0 missions found";
+        return;
+      }
+      const chapters = [];
+      const chapterMap = new Map();
+      missions.forEach(mission => {
+        if (!chapterMap.has(mission.chapter)) {
+          const group = { name: mission.chapter, missions: [] };
+          chapterMap.set(mission.chapter, group);
+          chapters.push(group);
+        }
+        chapterMap.get(mission.chapter).missions.push(mission);
+      });
+
+      database.innerHTML = chapters.map((chapter, index) => {
+        const entries = makeChapterEntries(chapter.missions);
+        const open = chapterOpenState[chapter.name] ?? (index === 0 || searchInput.value.trim() !== "");
+        const content = entries.map(entry => {
+          if (entry.type === "mission") return renderMission(entry.mission);
+          const partLabel = `${entry.missions.length} ${entry.missions.length === 1 ? "mission" : "missions"}`;
+          return `<details class="sequence">
+            <summary>
+              <span class="mission-title"><span class="sequence-label">Combined Mission Sequence</span><span class="sequence-name">${escapeHTML(entry.missions.map(m => m.name).join(" → "))}</span></span>
+              <span class="sequence-parts">${partLabel}</span>
+            </summary>
+            <div class="sequence-body">${entry.missions.map((mission, partIndex) => `
+              <div class="sequence-part">
+                ${renderMission(mission)}
+              </div>`).join("")}
+            </div>
+          </details>`;
+        }).join("");
+        return `<details class="chapter" ${open ? "open" : ""} data-chapter="${escapeHTML(chapter.name)}">
+          <summary><span>${escapeHTML(chapter.name.replace(/\s+/g, " ").trim())}</span><span class="chapter-count">${chapter.missions.length} missions</span></summary>
+          <div class="chapter-content">${content}</div>
+        </details>`;
+      }).join("");
+
+      countLabel.innerHTML = `<strong>${missions.length}</strong> ${missions.length === 1 ? "mission" : "missions"} shown across <strong>${chapters.length}</strong> ${chapters.length === 1 ? "chapter" : "chapters"}`;
+      database.querySelectorAll(".chapter").forEach(chapter => {
+        chapter.addEventListener("toggle", () => {
+          chapterOpenState[chapter.dataset.chapter] = chapter.open;
+        });
+      });
+    }
+
+    function filterMissions() {
+      const query = searchInput.value.trim().toLowerCase();
+      if (!query) {
+        renderDatabase(allMissions);
+        return;
+      }
+      const filtered = allMissions.filter(mission =>
+        [mission.chapter, mission.name, mission.source, mission.prerequisite, mission.quickInfo,
+         mission.unlocks, mission.additional, mission.sequence].join(" ").toLowerCase().includes(query)
+      );
+      renderDatabase(filtered);
+    }
+
+    async function loadDatabase() {
+      refreshButton.disabled = true;
+      refreshButton.textContent = "Loading…";
+      database.innerHTML = `<div class="empty-state">Loading the mission database…</div>`;
+      try {
+        const response = await fetch(CSV_URL + "&_=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) throw new Error(`Google Sheets returned an error (${response.status}).`);
+        const csvText = await response.text();
+        const missions = readMissions(csvText);
+        if (!missions.length) throw new Error("No mission rows were found. Check that the published CSV contains mission names and chapter names.");
+        allMissions = missions;
+        filterMissions();
+        updatedLabel.textContent = "Data loaded: " + new Date().toLocaleString();
+      } catch (error) {
+        console.error(error);
+        database.innerHTML = `<div class="error-state"><strong>We couldn't load the mission database.</strong>
+          Please check your internet connection or confirm that the Google Sheet is still published to the web as a CSV. Then try Refresh database.<br><br>
+          <span>${escapeHTML(error.message || "Unknown loading error")}</span></div>`;
+        countLabel.textContent = "Mission data unavailable";
+        updatedLabel.textContent = "";
+      } finally {
+        refreshButton.disabled = false;
+        refreshButton.textContent = "↻ Refresh database";
+      }
+    }
+
+    searchInput.addEventListener("input", filterMissions);
+    refreshButton.addEventListener("click", loadDatabase);
+    database.addEventListener("click", event => {
+      const button = event.target.closest(".reveal-button");
+      if (!button) return;
+      const box = button.closest(".reveal-box");
+      const revealed = box.classList.toggle("revealed");
+      button.setAttribute("aria-expanded", String(revealed));
+      const title = button.textContent.replace(/^＋ |^− /, "").replace(/ — Tap to reveal| — Hide/g, "");
+      button.textContent = revealed ? `− ${title} — Hide` : `＋ ${title} — Tap to reveal`;
+    });
+
+    loadDatabase();
+  </script>
+</body>
+</html>
